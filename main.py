@@ -1,28 +1,41 @@
 import streamlit as st
 import os
 from openai import OpenAI
-from dotenv import load_dotenv
-import fitz  # PyMuPDF
+# from dotenv import load_dotenv # 이 줄은 주석 처리하거나 삭제해도 됩니다.
+import fitz
 import io
 import time
-import pandas as pd # 데이터 처리 및 시각화를 위해 pandas 임포트
-import re # 점수 추출을 위해 정규 표현식 임포트
+import pandas as pd
+import re
 
-# .env 파일에서 환경 변수 로드
-load_dotenv()
-api_key = os.getenv("OPENAI_API_KEY")
+# --- API 키 로딩 수정 ---
+# Streamlit Cloud의 Secrets 또는 로컬 환경 변수에서 API 키 로드 시도
+# 1순위: Streamlit Cloud Secrets
+api_key = st.secrets.get("OPENAI_API_KEY")
 
-# API 키 확인
+# 2순위: 로컬 환경 변수 (선택 사항 - 로컬 테스트용)
+# if api_key is None:
+#     api_key = os.getenv("OPENAI_API_KEY")
+
+# 3순위: 로컬 .env 파일 (선택 사항 - 로컬 테스트용)
+# if api_key is None:
+#     from dotenv import load_dotenv
+#     load_dotenv()
+#     api_key = os.getenv("OPENAI_API_KEY")
+
+# 최종 API 키 확인
 if api_key is None:
-    st.error("OpenAI API 키를 찾을 수 없습니다. .env 파일 확인!")
-    st.stop()
+    st.error("OpenAI API 키를 찾을 수 없습니다. Streamlit Cloud Secrets 설정을 확인하세요.")
+    st.stop() # 키 없으면 앱 중지
 
-# OpenAI 클라이언트 초기화
+# OpenAI 클라이언트 초기화 (이후 코드는 동일)
 try:
     client = OpenAI(api_key=api_key)
 except Exception as e:
     st.error(f"OpenAI 클라이언트 초기화 오류: {e}")
     st.stop()
+
+# ... (파일의 나머지 코드는 그대로 둡니다) ...
 
 # --- 함수: PDF에서 텍스트 추출 ---
 def extract_text_from_pdf(uploaded_file):
