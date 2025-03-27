@@ -1,5 +1,6 @@
 streamlit
 openai
-PyMuPDF # fitz 라이브러리의 설치 이름입니다.
+PyMuPDF
 pandas
 plotly
+plotly-expressy
