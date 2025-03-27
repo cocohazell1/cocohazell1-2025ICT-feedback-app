@@ -1,5 +1,5 @@
 streamlit
 openai
-python-dotenv
-PyMuPDF
+PyMuPDF # fitz 라이브러리의 설치 이름입니다.
 pandas
+plotly
