@@ -3,4 +3,3 @@ openai
 PyMuPDF
 pandas
 plotly
-plotly-expressy
